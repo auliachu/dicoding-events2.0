@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">MyDicodingEvents</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_upcoming">Upcoming</string>
+    <string name="title_finished">Finished</string>
+    <string name="title_favorite">Favorite</string>
+    <string name="title_settings">Setting</string>
+    <string name="searchbar_hint">Masukkan kata</string>
+    <string name="end">Selesai</string>
+    <string name="begin">Mulai</string>
+    <string name="quota">Sisa Kuota</string>
+    <string name="registrant">Pendaftar</string>
+    <string name="cityName">Kota</string>
+    <string name="ownername">Name</string>
+    <string name="desc">Deskripsi</string>
+    <string name="category">Cat</string>
+    <string name="save_bookmark">Simpan</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
