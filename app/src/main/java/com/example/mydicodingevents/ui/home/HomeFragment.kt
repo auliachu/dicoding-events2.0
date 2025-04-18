@@ -46,11 +46,12 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        swipeEventAdapter = SwipeEventAdapter()
+        scrollEventAdapter = EventAdapter()
+
         setupRecyclerView()
         observeViewModel()
     }
-
-
 
     private fun setupRecyclerView(){
         val horizontallayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

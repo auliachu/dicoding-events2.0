@@ -34,6 +34,7 @@ class FinishedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        eventAdapter = EventAdapter()
         setupRecyclerView()
         observeViewModel()
     }
