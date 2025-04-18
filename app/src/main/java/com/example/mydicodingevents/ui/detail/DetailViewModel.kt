@@ -11,7 +11,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailViewModel(application: Application) : ViewModel(){
+class DetailViewModel() : ViewModel(){
     private val _event = MutableLiveData<Event>()
     val event : LiveData<Event> = _event
 
@@ -25,6 +25,7 @@ class DetailViewModel(application: Application) : ViewModel(){
     }
 
    fun findEvent(eventId: String){
+       Log.d("DetailViewModel", "findEvent dipanggil dengan eventId: $eventId")
         _isLoading.value = true
         val client = ApiConfig.getApiService().getDetailEvent(eventId)
         client.enqueue(object : Callback<DicodingDetailEventResponse> {
@@ -35,6 +36,7 @@ class DetailViewModel(application: Application) : ViewModel(){
                 _isLoading.value = false
                 if (response.isSuccessful){
                     _event.value = response.body()?.event
+                    Log.d("DetailViewModel", "Berhasil : ${response.body()?.event}")
                 } else {
                     Log.e(TAG, "onFailure : ${response.message()}")
                 }
@@ -45,24 +47,16 @@ class DetailViewModel(application: Application) : ViewModel(){
                 Log.e(TAG, "onFailure: ${t.message}")
             }
         })
-    }
+   }
 
-    private val mFavoriteEventRepository: FavoriteEventRepository = FavoriteEventRepository(application)
-
-    fun insert(event: FavoriteEvent){
-        mFavoriteEventRepository.insert(event)
-    }
-
-    fun update(event: FavoriteEvent){
-        mFavoriteEventRepository.updateEvent(event)
-    }
-
-    fun delete(event: FavoriteEvent){
-        mFavoriteEventRepository.delete(event)
-    }
-
-    fun isFavoriteEventAdded(event: FavoriteEvent){
-        mFavoriteEventRepository.isFavoriteEventAdded(event)
-    }
+//    private val mFavoriteEventRepository: FavoriteEventRepository = FavoriteEventRepository(application)
+//
+//    fun insert(event: FavoriteEvent){
+//        mFavoriteEventRepository.insert(event)
+//    }
+//
+//    fun delete(event: FavoriteEvent){
+//        mFavoriteEventRepository.delete(event)
+//    }
 
 }

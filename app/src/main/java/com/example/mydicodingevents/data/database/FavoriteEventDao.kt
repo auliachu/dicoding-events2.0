@@ -13,18 +13,12 @@ interface FavoriteEventDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(event: FavoriteEvent)
 
-    @Query("SELECT * FROM favorite_event WHERE id= :id AND is_Favorite = 1")
+    @Query("SELECT * FROM favorite_event WHERE id= :id")
     fun getData(id: Int) : LiveData<FavoriteEvent>
 
-    @Query("SELECT * FROM favorite_event WHERE is_Favorite = 1")
+    @Query("SELECT * FROM favorite_event")
     fun getFavorite(): LiveData<List<FavoriteEvent>>
 
-    @Update
-    fun updateEvent(event: FavoriteEvent)
-
-    @Query("DELETE FROM favorite_event WHERE id= :id")
-    fun deleteFavoriteEvent(id: Int)
-
-    @Query("SELECT EXISTS(SELECT * FROM favorite_event WHERE id= :id AND is_Favorite = 1)")
-    fun isFavoriteEventAdd(id: Int) : Boolean
+    @Delete
+    fun delete(event: FavoriteEvent)
 }

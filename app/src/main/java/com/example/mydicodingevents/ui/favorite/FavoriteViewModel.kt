@@ -11,4 +11,10 @@ class FavoriteViewModel (application: Application) : ViewModel(){
     private val mFavoriteEventRepository : FavoriteEventRepository = FavoriteEventRepository(application)
 
     fun getAllFavoriteEvents() : LiveData<List<FavoriteEvent>> = mFavoriteEventRepository.getAllFavoriteEvents()
+
+    fun getFavoriteEventById(id: Int) : LiveData<FavoriteEvent> = mFavoriteEventRepository.getFavoriteEventById(id)
+
+    fun insert(favoriteEvent: FavoriteEvent) = mFavoriteEventRepository.insert(favoriteEvent)
+
+    fun delete(favoriteEvent: FavoriteEvent) = mFavoriteEventRepository.delete(favoriteEvent)
 }

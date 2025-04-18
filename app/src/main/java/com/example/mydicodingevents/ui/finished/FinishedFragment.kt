@@ -19,13 +19,7 @@ class FinishedFragment : Fragment() {
     private var _binding: FragmentFinishedBinding? = null
     private val binding get() = _binding!!
     private lateinit var finishedViewModel: FinishedViewModel
-
-    private val finishedEventAdapter = EventAdapter { eventId : String ->
-        Toast.makeText(requireContext(), "Clicked event ID : ${eventId}", Toast.LENGTH_SHORT).show()
-        val intent = Intent(requireContext(), DetailActivity::class.java)
-        intent.putExtra(DetailActivity.EXTRA_EVENT_ID, eventId)
-        startActivity(intent)
-    }
+    private lateinit var eventAdapter: EventAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,7 +42,7 @@ class FinishedFragment : Fragment() {
         val layoutManager = LinearLayoutManager(requireContext())
         binding.finishEvent.apply {
             this.layoutManager = layoutManager
-            this.adapter = finishedEventAdapter
+            this.adapter = eventAdapter
 
             val itemDecoration = DividerItemDecoration(requireContext(), layoutManager.orientation)
             addItemDecoration(itemDecoration)
@@ -58,7 +52,7 @@ class FinishedFragment : Fragment() {
     private fun observeViewModel(){
         finishedViewModel.listEvent.observe(viewLifecycleOwner){ event ->
             if (event != null){
-                finishedEventAdapter.submitList(event)
+                eventAdapter.submitList(event)
             }
         }
 

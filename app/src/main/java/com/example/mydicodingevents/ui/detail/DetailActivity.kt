@@ -1,83 +1,115 @@
 package com.example.mydicodingevents.ui.detail
 
 import DetailViewModel
+import ViewModelFactory
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.mydicodingevents.R
 import com.example.mydicodingevents.data.database.FavoriteEvent
 import com.example.mydicodingevents.data.response.Event
+import com.example.mydicodingevents.data.response.ListEventsItem
 import com.example.mydicodingevents.databinding.ActivityDetailBinding
+import com.example.mydicodingevents.ui.favorite.FavoriteViewModel
 
 
 class DetailActivity : AppCompatActivity() {
     private var binding: ActivityDetailBinding? = null
+    private lateinit var favoriteEventViewModel: FavoriteViewModel
+    private var isFavorite = false
+    private val detailViewModel : DetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
+        //favoriteEventViewModel
+        favoriteEventViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(application))[FavoriteViewModel::class.java]
+
         //ambil eventId
-        val eventId = intent.getStringExtra(EXTRA_EVENT_ID)
+        val eventId = if(Build.VERSION.SDK_INT >= 33){
+            intent.getParcelableExtra<ListEventsItem>("EVENT_DETAIL", ListEventsItem::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra<ListEventsItem>("EVENT_DETAIL")
+        }
+        Log.d("DetailActivity", "EventId : $eventId")
 
-        if (eventId.isNullOrEmpty()){
-            Toast.makeText(this, "EventID tidak ditemukan", Toast.LENGTH_SHORT).show()
-            finish()
-            return
+        if (eventId != null){
+            showLoading(true)
+
+            detailViewModel.findEvent(eventId.id.toString())
+
+            detailViewModel.event.observe(this) { event ->
+                Log.d("DetailActivity", "observer : $event")
+                showLoading(false)
+                if (event != null){
+                    setEventData(event)
+                    favoriteEventViewModel.getFavoriteEventById(event.id).observe(this){favorite ->
+                        isFavorite = favorite !=null
+                        updateFavoriteButton()
+                    }
+                } else {
+                    Log.e("DetailEvent", "Data tidak ditemukan")
+                }
+            }
         }
 
-        val detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(DetailViewModel::class.java)
-
-        // Observe loading status
-        detailViewModel.isLoading.observe(this) { isLoading ->
-            showLoading(isLoading)
+        detailViewModel.isLoading.observe(this){
+            showLoading(it)
         }
-
-        // Fetch event detail
-        detailViewModel.findEvent(eventId)
-
-        // Observe event detail
-        detailViewModel.event.observe(this) { event ->
-            setEventData(event)
-        }
-
     }
 
-    private fun setEventData(event: Event?) {
-        val totalQuota = (event?.quota ?:0) - (event?.registrants ?: 0)
+    private fun updateFavoriteButton(){
+        if (isFavorite){
+            binding?.favButton?.setImageResource(R.drawable.ic_favorite_items)
+        } else {
+            binding?.favButton?.setImageResource(R.drawable.ic_favorite_empty)
+        }
+    }
+
+    private fun setEventData(event: Event) {
+        val totalQuota = (event.quota) - (event.registrants )
         binding?.apply {
             Glide.with(this@DetailActivity)
-                .load(event?.mediaCover)
+                .load(event.mediaCover)
                 .into(imageEvent)
-            descEvent.text = HtmlCompat.fromHtml(event?.description ?: "", HtmlCompat.FROM_HTML_MODE_LEGACY)
-            titleEvent.text = event?.name
+            descEvent.text = HtmlCompat.fromHtml(event.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            titleEvent.text = event.name
             sisaQuota.text = totalQuota.toString()
-            summaryEvent.text = event?.summary
-            textCategory.text = event?.category
-            ownerName.text = event?.ownerName
-            cityName.text = event?.cityName
-            registrant.text = event?.registrants.toString()
-            quota.text = event?.quota.toString()
-            beginTime.text = event?.beginTime
-            endTime.text = event?.endTime
+            summaryEvent.text = event.summary
+            textCategory.text = event.category
+            ownerName.text = event.ownerName
+            cityName.text = event.cityName
+            registrant.text = event.registrants.toString()
+            quota.text = event.quota.toString()
+            beginTime.text = event.beginTime
+            endTime.text = event.endTime
 
             buttonLink.setOnClickListener{
-                val eventLink = event?.link
+                val eventLink = event.link
                 if(!eventLink.isNullOrEmpty()){
                     openLink(eventLink)
                 } else{
                     Toast.makeText(this@DetailActivity, "URL tidak ada atau tidak valid", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            binding?.favButton?.setOnClickListener{
+                if (isFavorite){
+                    favoriteEventViewModel.delete(FavoriteEvent(event.id, event.name, event.mediaCover, event.imageLogo, event.summary, event.ownerName, event.quota.toString(), event.description, event.registrants, event.beginTime, event.link))
+                } else{
+                    favoriteEventViewModel.insert(FavoriteEvent(event.id, event.name, event.mediaCover, event.imageLogo, event.summary, event.ownerName, event.quota.toString(), event.description, event.registrants, event.beginTime, event.link))
                 }
             }
         }

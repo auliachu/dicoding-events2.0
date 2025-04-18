@@ -15,7 +15,29 @@ data class FavoriteEvent (
     @ColumnInfo(name = "name")
     var name : String = "",
     @ColumnInfo(name = "mediaCover")
-    var mediaCover : String? = null,
-    @ColumnInfo("is_Favorite")
-    var isFavorite : Boolean
+    var mediaCover : String? = "",
+
+    @ColumnInfo(name = "imageLogo")
+    var imageLogo : String? = "",
+
+    @ColumnInfo(name = "summary")
+    var summary : String? = "",
+
+    @ColumnInfo(name = "ownerName")
+    var ownerName : String? = "",
+
+    @ColumnInfo(name = "quota")
+    var quota : String? = "",
+
+    @ColumnInfo(name = "description")
+    var description : String? = "",
+
+    @ColumnInfo(name = "registrant")
+    var registrant: Int?,
+
+    @ColumnInfo(name = "beginTime")
+    var beginTime: String? = "",
+
+    @ColumnInfo(name = "link")
+    var link: String? = ""
 ) : Parcelable
