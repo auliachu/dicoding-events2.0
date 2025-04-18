@@ -20,12 +20,14 @@ import com.example.mydicodingevents.data.response.Event
 import com.example.mydicodingevents.data.response.ListEventsItem
 import com.example.mydicodingevents.databinding.ActivityDetailBinding
 import com.example.mydicodingevents.ui.favorite.FavoriteViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class DetailActivity : AppCompatActivity() {
     private var binding: ActivityDetailBinding? = null
     private lateinit var favoriteEventViewModel: FavoriteViewModel
     private var isFavorite = false
+    private lateinit var favButton: FloatingActionButton
     private val detailViewModel : DetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,19 +38,18 @@ class DetailActivity : AppCompatActivity() {
         //favoriteEventViewModel
         favoriteEventViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(application))[FavoriteViewModel::class.java]
 
-        //ambil eventId
-        val eventId = if(Build.VERSION.SDK_INT >= 33){
+        //ambil event
+        val event = if(Build.VERSION.SDK_INT >= 33){
             intent.getParcelableExtra<ListEventsItem>("EVENT_DETAIL", ListEventsItem::class.java)
         } else {
             @Suppress("DEPRECATION")
             intent.getParcelableExtra<ListEventsItem>("EVENT_DETAIL")
         }
-        Log.d("DetailActivity", "EventId : $eventId")
 
-        if (eventId != null){
+        if (event != null){
             showLoading(true)
 
-            detailViewModel.findEvent(eventId.id.toString())
+            detailViewModel.findEvent(event.id.toString())
 
             detailViewModel.event.observe(this) { event ->
                 Log.d("DetailActivity", "observer : $event")
