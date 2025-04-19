@@ -27,7 +27,6 @@ class DetailActivity : AppCompatActivity() {
     private var binding: ActivityDetailBinding? = null
     private lateinit var favoriteEventViewModel: FavoriteViewModel
     private var isFavorite = false
-    private lateinit var favButton: FloatingActionButton
     private val detailViewModel : DetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,7 +105,7 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
 
-            binding?.favButton?.setOnClickListener{
+            favButton?.setOnClickListener{
                 if (isFavorite){
                     favoriteEventViewModel.delete(FavoriteEvent(event.id, event.name, event.mediaCover, event.imageLogo, event.summary, event.ownerName, event.quota.toString(), event.description, event.registrants, event.beginTime, event.link))
                 } else{
