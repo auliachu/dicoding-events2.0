@@ -22,13 +22,6 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var homeViewModel: HomeViewModel
 
-//    private val eventAdapter = SwipeEventAdapter{ eventId ->
-//        Toast.makeText(requireContext(), "Clicked Event ID : ${eventId}", Toast.LENGTH_SHORT).show()
-//        val intent = Intent(requireContext(), DetailActivity::class.java)
-//        intent.putExtra(DetailActivity.EXTRA_EVENT_ID, eventId)
-//        startActivity(intent)
-//    }
-
     private lateinit var swipeEventAdapter: SwipeEventAdapter
 
     private lateinit var scrollEventAdapter : EventAdapter
