@@ -79,14 +79,14 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setEventData(event: Event) {
-        val totalQuota = (event.quota) - (event.registrants )
+        val sisaQuotaEvent = (event.quota) - (event.registrants )
         binding?.apply {
             Glide.with(this@DetailActivity)
                 .load(event.mediaCover)
                 .into(imageEvent)
             descEvent.text = HtmlCompat.fromHtml(event.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
             titleEvent.text = event.name
-            sisaQuota.text = totalQuota.toString()
+            sisaQuota.text = sisaQuotaEvent.toString()
             summaryEvent.text = event.summary
             textCategory.text = event.category
             ownerName.text = event.ownerName
