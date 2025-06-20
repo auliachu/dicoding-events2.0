@@ -1,4 +1,4 @@
-# Final Submission Jetpack Compose - Aplikasi Dicoding Events
+# Final Submission Android Pemula - Aplikasi Dicoding Events
 Aplikasi My Favorite Books adalah aplikasi yang dikembangkan menggunakan Jetpack Compose, dan sudah tidak lagi menggunakan XML.
 
 ## Cara Menjalankan Aplikasi
@@ -7,7 +7,7 @@ Untuk menjalankan aplikasi My Favo Books, ikuti langkah-langkah di bawah ini:
 
 1. Kloning repositori:
     ```bash
-    git clone https://github.com/auliachu/my-fav-book-app.git
+    https://github.com/auliachu/dicoding-events2.0.git
     ```
 
 2. Buka proyek di Android Studio.
