@@ -3,7 +3,7 @@ Aplikasi Dicoding Events adalah aplikasi yang menerapkan API Retrofit dan Databa
 
 ## Cara Menjalankan Aplikasi
 
-Untuk menjalankan aplikasi My Favo Books, ikuti langkah-langkah di bawah ini:
+Untuk menjalankan aplikasi Dicoding Events, ikuti langkah-langkah di bawah ini:
 
 1. Kloning repositori:
     ```bash
