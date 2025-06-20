@@ -1,5 +1,5 @@
 # Final Submission Android Pemula - Aplikasi Dicoding Events
-Aplikasi My Favorite Books adalah aplikasi yang dikembangkan menggunakan Jetpack Compose, dan sudah tidak lagi menggunakan XML.
+Aplikasi Dicoding Events adalah aplikasi yang menerapkan API Retrofit dan Database Room dengan banyak fitur yaitu fitur mengubah tema yang juga menerapkan database, menarik API dari retrofit.
 
 ## Cara Menjalankan Aplikasi
 
